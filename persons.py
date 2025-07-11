@@ -30,8 +30,10 @@ with open('cook_book.txt',encoding='UTF-8') as f:
 
 
 def get_shop_list_by_dishes(dishes, person_count):
-   for x in dishes:
+    result={}
+    for x in dishes:
         for item in cook_book[x]:
-            print(item['ingredient_name'],item['quantity']*person_count,item['measure'])
+            result.setdefault(item['ingredient_name'],{'measure':item['measure'],'quantity':item['quantity']*person_count})
+    print(result)
 
 get_shop_list_by_dishes(['Запеченный картофель', 'Омлет'], 2)

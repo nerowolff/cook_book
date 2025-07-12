@@ -1,3 +1,4 @@
+from pprint import pprint
 cook_book = {}
 def setting(key,_list):
     cook_book[key]=[]
@@ -7,10 +8,9 @@ def setting(key,_list):
         ingr.setdefault('ingredient_name', items[0])
         ingr.setdefault('quantity', int(items[1]))
         ingr.setdefault('measure', items[2])
-        # print(ingr)
+
         
         cook_book[key]+=[ingr]
-    # print(lists_1)
 with open('cook_book.txt',encoding='UTF-8') as f:
     dish=f.read()
     dish_list=dish.split("\n")
@@ -25,15 +25,19 @@ with open('cook_book.txt',encoding='UTF-8') as f:
             setting(dish_list_[0],dish_list_[2:])
         else:
             dish_list_.append(element)
-# print(cook_book)
 
 
+def get_shop_list_by_dishes(list,dishes, person_count):
+    ingredient_list={}
+    for dish in dishes:
+        for item in list[dish]:
+            if item['ingredient_name'] not in ingredient_list:
+                ingredient_list[item['ingredient_name']]={'miasure':(item['measure']),'quantity':item['quantity']*person_count}
+            else:
+    #Исправил логику подсчета ингредиентов
+                ingredient_list[item['ingredient_name']]['quantity']+=(item['quantity']*person_count)
+    # Исправил работу с глобальной переменной.теперь функция принимает ее в качестве параметра и возврашает локальную переменную,
+    # не ищет cook_book снаружи и не изменяет ее напрямую.
+    return ingredient_list
 
-def get_shop_list_by_dishes(dishes, person_count):
-    result={}
-    for x in dishes:
-        for item in cook_book[x]:
-            result.setdefault(item['ingredient_name'],{'measure':item['measure'],'quantity':item['quantity']*person_count})
-    print(result)
-
-get_shop_list_by_dishes(['Запеченный картофель', 'Омлет'], 2)
+pprint(get_shop_list_by_dishes(cook_book,['Фахитос', 'Омлет'], 2))

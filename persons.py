@@ -27,10 +27,10 @@ with open('cook_book.txt',encoding='UTF-8') as f:
             dish_list_.append(element)
 
 
-def get_shop_list_by_dishes(list,dishes, person_count):
+def get_shop_list_by_dishes(dishes, person_count,list_=cook_book):
     ingredient_list={}
     for dish in dishes:
-        for item in list[dish]:
+        for item in list_[dish]:
             if item['ingredient_name'] not in ingredient_list:
                 ingredient_list[item['ingredient_name']]={'miasure':(item['measure']),'quantity':item['quantity']*person_count}
             else:
@@ -39,5 +39,4 @@ def get_shop_list_by_dishes(list,dishes, person_count):
     # Исправил работу с глобальной переменной.теперь функция принимает ее в качестве параметра и возврашает локальную переменную,
     # не ищет cook_book снаружи и не изменяет ее напрямую.
     return ingredient_list
-
-pprint(get_shop_list_by_dishes(cook_book,['Фахитос', 'Омлет'], 2))
+pprint(get_shop_list_by_dishes(['Фахитос', 'Омлет'], 2))
